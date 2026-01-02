@@ -13,18 +13,19 @@
   if (!navbar) return;
   
   let lastScrollY = 0;
-  let lastScrollTime = 0;
   let hideTimeout;
-  let isScrolling = false;
   
   const HIDE_DELAY = 3000; // Hide navbar after 3 seconds of inactivity
+  const SECTIONS = [
+    { id: 'hero-section', link: 'a[href="#hero-section"]' },
+    { id: 'about-section', link: 'a[href="#about-section"]' },
+    { id: 'portfolio-section', link: 'a[href="#portfolio-section"]' },
+    { id: 'contact-section', link: 'a[href="#contact-section"]' }
+  ];
   
   function hideNavbar() {
-    if (window.scrollY > 100) { // Don't hide at the very top
-      navbar.classList.add('hidden');
-      navbar.classList.remove('visible');
-      isScrolling = false;
-    }
+    navbar.classList.add('hidden');
+    navbar.classList.remove('visible');
   }
   
   function showNavbar() {
@@ -35,33 +36,52 @@
   function resetHideTimer() {
     clearTimeout(hideTimeout);
     showNavbar();
+    hideTimeout = setTimeout(hideNavbar, HIDE_DELAY);
+  }
+  
+  function updateActiveLink() {
+    let currentSection = null;
     
-    if (window.scrollY > 100) {
-      hideTimeout = setTimeout(hideNavbar, HIDE_DELAY);
+    // Find which section is currently in view
+    for (const section of SECTIONS) {
+      const element = document.getElementById(section.id);
+      if (element) {
+        const rect = element.getBoundingClientRect();
+        // Check if section is in viewport
+        if (rect.top <= window.innerHeight / 2 && rect.bottom >= window.innerHeight / 2) {
+          currentSection = section.link;
+          break;
+        }
+      }
     }
+    
+    // Update active state for all links
+    document.querySelectorAll('.navbar-link').forEach(link => {
+      link.classList.remove('active');
+      if (link.matches(currentSection)) {
+        link.classList.add('active');
+      }
+    });
   }
   
   // Detect scroll direction
   document.addEventListener('scroll', () => {
-    lastScrollTime = Date.now();
-    
-    if (lastScrollY > window.scrollY) {
-      // Scrolling up
+    if (lastScrollY < window.scrollY) {
+      // Scrolling down
       showNavbar();
       resetHideTimer();
-    } else if (lastScrollY < window.scrollY) {
-      // Scrolling down
+    } else if (lastScrollY > window.scrollY) {
+      // Scrolling up
       hideNavbar();
       clearTimeout(hideTimeout);
     }
     
     lastScrollY = window.scrollY;
+    updateActiveLink();
   }, { passive: true });
   
-  // Show navbar on page load if at top
-  if (window.scrollY <= 100) {
-    showNavbar();
-  }
+  // Hide navbar initially
+  hideNavbar();
   
   // Add smooth scrolling for navbar links
   document.querySelectorAll('.navbar-link').forEach(link => {
@@ -85,6 +105,7 @@
     if (heroSection) {
       heroSection.scrollIntoView({ behavior: 'smooth' });
       showNavbar();
+      resetHideTimer();
     }
   });
 })();

@@ -151,6 +151,14 @@ h1, h2, h3, h4, h5, h6 {
   width: 100%;
 }
 
+.navbar-link.active {
+  color: var(--color-blue);
+}
+
+.navbar-link.active::after {
+  width: 100%;
+}
+
 /* ========================================
    Hero Section
    ======================================== */
