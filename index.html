@@ -6,17 +6,37 @@
   <link rel="icon" href="images/AnacondaConslting_Logo9.png" type="image/png">
   <!-- Stylesheet -->
   <link rel="stylesheet" href="css/styles.css">
+  <!-- Add this line to the head section for the radio animation -->
+  <link rel="stylesheet" href="css/radio-animation.css">
 </head>
 <body>
 
+  <!-- Navigation Bar -->
+  <nav id="navbar" class="navbar">
+    <div class="navbar-container">
+      <div class="navbar-brand">
+        <img src="images/AnacondaConslting_Logo7.png" alt="Anaconda Consulting Logo" class="navbar-logo">
+        <span class="navbar-title">Anaconda Consulting</span>
+      </div>
+      <ul class="navbar-menu">
+        <li><a href="#hero-section" class="navbar-link">Home</a></li>
+        <li><a href="#about-section" class="navbar-link">About</a></li>
+        <li><a href="#portfolio-section" class="navbar-link">Projects</a></li>
+        <li><a href="#contact-section" class="navbar-link">Contact Us</a></li>
+      </ul>
+    </div>
+  </nav>
+
   <!-- Hero Section -->
   <header id="hero-section" class="hero-container">
-    <div class="hero-content">
-      <img src="images/AnacondaConslting_Logo7.png" alt="Anaconda Consulting Logo" class="hero-logo">
-      <h1 class="hero-title">Anaconda Consulting</h1>
-      <p class="hero-tagline">Expert IT Consulting, Secure Solutions, and Technical Excellence</p>
-    </div>
-  </header>
+  <!-- Falling pattern background -->
+  <div id="fallingPattern" class="falling-pattern"></div>
+  <div class="hero-content">
+    <img src="images/AnacondaConslting_Logo7.png" alt="Anaconda Consulting Logo" class="hero-logo">
+    <h1 class="hero-title">Anaconda Consulting</h1>
+    <p class="hero-tagline">Expert IT Consulting, Secure Solutions, and Technical Excellence</p>
+  </div>
+</header>
 
   <!-- About Section -->
   <section id="about-section" class="about-container">
@@ -39,7 +59,7 @@
     <article class="about-founder">
       <h3 class="founder-heading">Meet the Founder</h3>
       <figure class="founder-profile">
-        <img src="founder.jpg" alt="Founder Picture" class="founder-photo">
+        <img src="images/Ankunda4.png" alt="Founder Picture" class="founder-photo">
         <figcaption class="founder-caption">Ankunda Bakainaga</figcaption>
       </figure>
       <p class="founder-bio">
@@ -59,7 +79,7 @@
     <div class="portfolio-grid">
       
       <article class="project-card">
-        <img src="project1.png" alt="Project Screenshot" class="project-image">
+        <img src="images/LoveLife-500x417.png" alt="Project Screenshot" class="project-image">
         <h3 class="project-title">LoveLife Web Application</h3>
         <p class="project-description">
           A dynamic web portal enabling role-based interactions, form submissions, and administrative workflows.
@@ -68,7 +88,7 @@
       </article>
 
       <article class="project-card">
-        <img src="project2.png" alt="Project Screenshot" class="project-image">
+        <img src="images/ic_app_logo_1.png" alt="Project Screenshot" class="project-image">
         <h3 class="project-title">Rukiga Language App</h3>
         <p class="project-description">
           An Android application designed to teach the Rukiga language with quizzes and translation features.
@@ -77,13 +97,32 @@
       </article>
 
       <article class="project-card">
-        <img src="project3.png" alt="Project Screenshot" class="project-image">
+        <img src="images/Voluntree.png" alt="Project Screenshot" class="project-image">
         <h3 class="project-title">Community Service Locator</h3>
         <p class="project-description">
           A mobile app to locate nearby charity opportunities and track volunteer hours.
         </p>
         <p class="project-tech">Technologies: Kotlin, AWS, Geolocation APIs</p>
       </article>
+    </div>
+    <div class="portfolio-grid">
+      
+      <article class="project-card">
+        <img src="images/KDMNWebsite.png" alt="Project Screenshot" class="project-image">
+        <h3 class="project-title">KDMN Website</h3>
+        <p class="project-description">
+          Website for KDMN, a media company focused on digital content and social media engagement.
+        </p>
+        <p class="project-tech">Technologies: HTML, CSS, JavaScript</p>
+      </article>
+
+      <article >
+      </article>
+
+      <article >
+      </article>
+
+      
 
     </div>
   </section>
@@ -92,14 +131,15 @@
   <section id="contact-section" class="contact-container">
     <h2 class="contact-heading">Get in Touch</h2>
     <form class="contact-form">
-      <label for="contact-method" class="contact-label">Preferred Contact Method:</label>
-      <select id="contact-method" name="contact-method" class="contact-select">
-        <option value="email">Email</option>
-        <option value="phone">Cellphone</option>
-      </select>
-
       <label for="contact-input" class="contact-label">Your Contact:</label>
       <input type="text" id="contact-input" name="contact-input" class="contact-input" placeholder="Enter email or phone number">
+
+      <label class="contact-label">Preferred Contact Method:</label>
+      <div class="contact-radio-group">
+  <div class="animated-radio-horizontal">
+    <!-- Radio buttons will be injected here by JavaScript -->
+  </div>
+</div>
 
       <button type="submit" class="contact-button">Submit</button>
     </form>

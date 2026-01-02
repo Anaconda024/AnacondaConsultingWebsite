@@ -4,6 +4,92 @@
  */
 
 // ========================================
+// Navigation Bar - Auto-hide and Scroll Detection
+// ========================================
+
+(function initNavbar() {
+  const navbar = document.getElementById('navbar');
+  
+  if (!navbar) return;
+  
+  let lastScrollY = 0;
+  let lastScrollTime = 0;
+  let hideTimeout;
+  let isScrolling = false;
+  
+  const HIDE_DELAY = 3000; // Hide navbar after 3 seconds of inactivity
+  
+  function hideNavbar() {
+    if (window.scrollY > 100) { // Don't hide at the very top
+      navbar.classList.add('hidden');
+      navbar.classList.remove('visible');
+      isScrolling = false;
+    }
+  }
+  
+  function showNavbar() {
+    navbar.classList.remove('hidden');
+    navbar.classList.add('visible');
+  }
+  
+  function resetHideTimer() {
+    clearTimeout(hideTimeout);
+    showNavbar();
+    
+    if (window.scrollY > 100) {
+      hideTimeout = setTimeout(hideNavbar, HIDE_DELAY);
+    }
+  }
+  
+  // Detect scroll direction
+  document.addEventListener('scroll', () => {
+    lastScrollTime = Date.now();
+    
+    if (lastScrollY > window.scrollY) {
+      // Scrolling up
+      showNavbar();
+      resetHideTimer();
+    } else if (lastScrollY < window.scrollY) {
+      // Scrolling down
+      hideNavbar();
+      clearTimeout(hideTimeout);
+    }
+    
+    lastScrollY = window.scrollY;
+  }, { passive: true });
+  
+  // Show navbar on page load if at top
+  if (window.scrollY <= 100) {
+    showNavbar();
+  }
+  
+  // Add smooth scrolling for navbar links
+  document.querySelectorAll('.navbar-link').forEach(link => {
+    link.addEventListener('click', (e) => {
+      const href = link.getAttribute('href');
+      if (href.startsWith('#')) {
+        const target = document.querySelector(href);
+        if (target) {
+          e.preventDefault();
+          target.scrollIntoView({ behavior: 'smooth' });
+          showNavbar();
+          resetHideTimer();
+        }
+      }
+    });
+  });
+  
+  // Click on logo to scroll to home
+  document.querySelector('.navbar-brand').addEventListener('click', () => {
+    const heroSection = document.getElementById('hero-section');
+    if (heroSection) {
+      heroSection.scrollIntoView({ behavior: 'smooth' });
+      showNavbar();
+    }
+  });
+})();
+
+// ========================================
 // Hero Section - Mouse Interaction Effect
 // ========================================
 
@@ -321,3 +407,305 @@ document.addEventListener('DOMContentLoaded', () => {
 window.addEventListener('error', (e) => {
   console.error('Error occurred:', e.message);
 });
+
+// ========================================
+// Animated Radio Component - Horizontal
+// ========================================
+
+(function initAnimatedRadio() {
+  const radioContainer = document.querySelector('.animated-radio-horizontal');
+  if (!radioContainer) return;
+
+  // Radio options
+  const options = [
+    { id: "contact-email", value: "email", label: "Email" },
+    { id: "contact-phone", value: "phone", label: "Cellphone" },
+  ];
+
+  // State
+  let selectedValue = "email";
+
+  // Initialize radio component
+  function initRadio() {
+    // Clear container
+    radioContainer.innerHTML = '';
+
+    // Create radio options
+    options.forEach((option, index) => {
+      const optionDiv = document.createElement('div');
+      optionDiv.className = 'radio-option-horizontal';
+      
+      const input = document.createElement('input');
+      input.type = 'radio';
+      input.id = option.id;
+      input.name = 'contact-method';
+      input.value = option.value;
+      input.checked = selectedValue === option.value;
+      input.className = 'radio-input-horizontal';
+      
+      const label = document.createElement('label');
+      label.htmlFor = option.id;
+      label.className = `radio-label-horizontal ${selectedValue === option.value ? 'selected' : 'unselected'}`;
+      label.textContent = option.label;
+      
+      // Add event listener
+      input.addEventListener('change', (e) => {
+        selectedValue = e.target.value;
+        updateRadioSelection();
+        updateContactPlaceholder();
+      });
+      
+      optionDiv.appendChild(input);
+      optionDiv.appendChild(label);
+      radioContainer.appendChild(optionDiv);
+    });
+
+    // Create the track and glider
+    const track = document.createElement('div');
+    track.className = 'radio-track-horizontal';
+    
+    const glider = document.createElement('div');
+    glider.className = 'glider-horizontal';
+    glider.id = 'radio-glider';
+    glider.style.transform = getGliderTransform();
+    
+    const gliderBlur = document.createElement('div');
+    gliderBlur.className = 'glider-blur-horizontal';
+    
+    const gliderGradient = document.createElement('div');
+    gliderGradient.className = 'glider-gradient-horizontal';
+    
+    glider.appendChild(gliderBlur);
+    glider.appendChild(gliderGradient);
+    track.appendChild(glider);
+    radioContainer.appendChild(track);
+  }
+
+  // Update radio selection
+  function updateRadioSelection() {
+    document.querySelectorAll('.radio-label-horizontal').forEach((label, index) => {
+      label.className = `radio-label-horizontal ${options[index].value === selectedValue ? 'selected' : 'unselected'}`;
+    });
+    
+    // Update glider position
+    const glider = document.getElementById('radio-glider');
+    if (glider) {
+      glider.style.transform = getGliderTransform();
+    }
+  }
+
+  // Calculate glider transform
+  function getGliderTransform() {
+    const index = options.findIndex((option) => option.value === selectedValue);
+    return `translateX(${index * 100}%)`;
+  }
+
+  // Update contact input placeholder based on selection
+  function updateContactPlaceholder() {
+    const contactInput = document.getElementById('contact-input');
+    if (!contactInput) return;
+
+    if (selectedValue === 'email') {
+      contactInput.type = 'email';
+      contactInput.placeholder = 'Enter your email address';
+      contactInput.setAttribute('pattern', '[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,}$');
+    } else if (selectedValue === 'phone') {
+      contactInput.type = 'tel';
+      contactInput.placeholder = 'Enter your phone number';
+      contactInput.setAttribute('pattern', '[0-9+\\-\\s()]*');
+    }
+  }
+
+  // Initialize on page load
+  document.addEventListener('DOMContentLoaded', () => {
+    initRadio();
+    updateContactPlaceholder();
+  });
+})();
+
+// ========================================
+// Falling Pattern Background
+// ========================================
+
+(function initFallingPattern() {
+  const fallingPattern = document.getElementById('fallingPattern');
+  if (!fallingPattern) return;
+
+  // Configuration
+  const config = {
+    color: 'rgb(252, 252, 252)',
+    backgroundColor: 'rgb(12, 15, 29)',
+    duration: 150,
+    blurIntensity: '1em',
+    density: 0.8,
+    isPlaying: true
+  };
+
+  // Generate pattern background
+  function generateBackgroundImage(color) {
+    const patterns = [
+      `radial-gradient(4px 100px at 0px 235px, ${color}, transparent)`,
+      `radial-gradient(4px 100px at 300px 235px, ${color}, transparent)`,
+      `radial-gradient(1.5px 1.5px at 150px 117.5px, ${color} 100%, transparent 150%)`,
+      `radial-gradient(4px 100px at 0px 252px, ${color}, transparent)`,
+      `radial-gradient(4px 100px at 300px 252px, ${color}, transparent)`,
+      `radial-gradient(1.5px 1.5px at 150px 126px, ${color} 100%, transparent 150%)`,
+      `radial-gradient(4px 100px at 0px 150px, ${color}, transparent)`,
+      `radial-gradient(4px 100px at 300px 150px, ${color}, transparent)`,
+      `radial-gradient(1.5px 1.5px at 150px 75px, ${color} 100%, transparent 150%)`,
+      `radial-gradient(4px 100px at 0px 253px, ${color}, transparent)`,
+      `radial-gradient(4px 100px at 300px 253px, ${color}, transparent)`,
+      `radial-gradient(1.5px 1.5px at 150px 126.5px, ${color} 100%, transparent 150%)`,
+      `radial-gradient(4px 100px at 0px 204px, ${color}, transparent)`,
+      `radial-gradient(4px 100px at 300px 204px, ${color}, transparent)`,
+      `radial-gradient(1.5px 1.5px at 150px 102px, ${color} 100%, transparent 150%)`,
+      `radial-gradient(4px 100px at 0px 134px, ${color}, transparent)`,
+      `radial-gradient(4px 100px at 300px 134px, ${color}, transparent)`,
+      `radial-gradient(1.5px 1.5px at 150px 67px, ${color} 100%, transparent 150%)`,
+      `radial-gradient(4px 100px at 0px 179px, ${color}, transparent)`,
+      `radial-gradient(4px 100px at 300px 179px, ${color}, transparent)`,
+      `radial-gradient(1.5px 1.5px at 150px 89.5px, ${color} 100%, transparent 150%)`,
+      `radial-gradient(4px 100px at 0px 299px, ${color}, transparent)`,
+      `radial-gradient(4px 100px at 300px 299px, ${color}, transparent)`,
+      `radial-gradient(1.5px 1.5px at 150px 149.5px, ${color} 100%, transparent 150%)`,
+      `radial-gradient(4px 100px at 0px 215px, ${color}, transparent)`,
+      `radial-gradient(4px 100px at 300px 215px, ${color}, transparent)`,
+      `radial-gradient(1.5px 1.5px at 150px 107.5px, ${color} 100%, transparent 150%)`,
+      `radial-gradient(4px 100px at 0px 281px, ${color}, transparent)`,
+      `radial-gradient(4px 100px at 300px 281px, ${color}, transparent)`,
+      `radial-gradient(1.5px 1.5px at 150px 140.5px, ${color} 100%, transparent 150%)`,
+      `radial-gradient(4px 100px at 0px 158px, ${color}, transparent)`,
+      `radial-gradient(4px 100px at 300px 158px, ${color}, transparent)`,
+      `radial-gradient(1.5px 1.5px at 150px 79px, ${color} 100%, transparent 150%)`,
+      `radial-gradient(4px 100px at 0px 210px, ${color}, transparent)`,
+      `radial-gradient(4px 100px at 300px 210px, ${color}, transparent)`,
+      `radial-gradient(1.5px 1.5px at 150px 105px, ${color} 100%, transparent 150%)`,
+    ];
+
+    return patterns.join(', ');
+  }
+
+  // Background sizes
+  const backgroundSizes = [
+    '300px 235px', '300px 235px', '300px 235px',
+    '300px 252px', '300px 252px', '300px 252px',
+    '300px 150px', '300px 150px', '300px 150px',
+    '300px 253px', '300px 253px', '300px 253px',
+    '300px 204px', '300px 204px', '300px 204px',
+    '300px 134px', '300px 134px', '300px 134px',
+    '300px 179px', '300px 179px', '300px 179px',
+    '300px 299px', '300px 299px', '300px 299px',
+    '300px 215px', '300px 215px', '300px 215px',
+    '300px 281px', '300px 281px', '300px 281px',
+    '300px 158px', '300px 158px', '300px 158px',
+    '300px 210px', '300px 210px'
+  ].join(', ');
+
+  // Start positions
+  const startPositions = '0px 220px, 3px 220px, 151.5px 337.5px, 25px 24px, 28px 24px, 176.5px 150px, 50px 16px, 53px 16px, 201.5px 91px, 75px 224px, 78px 224px, 226.5px 230.5px, 100px 19px, 103px 19px, 251.5px 121px, 125px 120px, 128px 120px, 276.5px 187px, 150px 31px, 153px 31px, 301.5px 120.5px, 175px 235px, 178px 235px, 326.5px 384.5px, 200px 121px, 203px 121px, 351.5px 228.5px, 225px 224px, 228px 224px, 376.5px 364.5px, 250px 26px, 253px 26px, 401.5px 105px, 275px 75px, 278px 75px, 426.5px 180px';
+
+  // End positions
+  const endPositions = '0px 6800px, 3px 6800px, 151.5px 6917.5px, 25px 13632px, 28px 13632px, 176.5px 13758px, 50px 5416px, 53px 5416px, 201.5px 5491px, 75px 17175px, 78px 17175px, 226.5px 17301.5px, 100px 5119px, 103px 5119px, 251.5px 5221px, 125px 8428px, 128px 8428px, 276.5px 8495px, 150px 9876px, 153px 9876px, 301.5px 9965.5px, 175px 13391px, 178px 13391px, 326.5px 13540.5px, 200px 14741px, 203px 14741px, 351.5px 14848.5px, 225px 18770px, 228px 18770px, 376.5px 18910.5px, 250px 5082px, 253px 5082px, 401.5px 5161px, 275px 6375px, 278px 6375px, 426.5px 6480px';
+
+  // Initialize falling pattern
+  function initPattern() {
+    fallingPattern.innerHTML = '';
+    
+    // Create pattern layer
+    const patternLayer = document.createElement('div');
+    patternLayer.className = 'pattern-layer';
+    
+    // Set CSS custom properties
+    patternLayer.style.setProperty('--pattern-image', generateBackgroundImage(config.color));
+    patternLayer.style.setProperty('--pattern-size', backgroundSizes);
+    patternLayer.style.setProperty('--start-positions', startPositions);
+    patternLayer.style.setProperty('--end-positions', endPositions);
+    patternLayer.style.setProperty('--duration', `${config.duration}s`);
+    
+    // Create overlay
+    const overlay = document.createElement('div');
+    overlay.className = 'falling-overlay';
+    overlay.style.setProperty('--blur-intensity', config.blurIntensity);
+    overlay.style.setProperty('--density', config.density);
+    
+    // Add to container
+    fallingPattern.appendChild(patternLayer);
+    fallingPattern.appendChild(overlay);
+    
+    // Set background color
+    fallingPattern.style.backgroundColor = config.backgroundColor;
+  }
+
+  // Initialize on page load
+  document.addEventListener('DOMContentLoaded', initPattern);
+  
+  // Handle window resize
+  window.addEventListener('resize', initPattern);
+})();
+
+// ========================================
+// Contact Form - Updated for animated radio
+// ========================================
+
+(function initContactForm() {
+  const contactInput = document.getElementById('contact-input');
+  const contactForm = document.querySelector('.contact-form');
+  
+  if (!contactInput || !contactForm) return;
+  
+  // Get selected contact method
+  function getSelectedMethod() {
+    const selectedRadio = document.querySelector('input[name="contact-method"]:checked');
+    return selectedRadio ? selectedRadio.value : 'email';
+  }
+  
+  // Form submission handler
+  contactForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    
+    const method = getSelectedMethod();
+    const contact = contactInput.value.trim();
+    
+    if (!contact) {
+      alert('Please enter your contact information.');
+      return;
+    }
+    
+    // Basic validation
+    if (method === 'email' && !contact.includes('@')) {
+      alert('Please enter a valid email address.');
+      return;
+    }
+    
+    if (method === 'phone' && !/^[\d\s\-\+\(\)]{10,}$/.test(contact.replace(/\D/g, ''))) {
+      alert('Please enter a valid phone number (at least 10 digits).');
+      return;
+    }
+    
+    // Success feedback
+    const button = contactForm.querySelector('.contact-button');
+    const originalText = button.textContent;
+    
+    button.textContent = 'Submitted!';
+    button.style.background = 'rgba(34, 197, 94, 0.25)';
+    button.style.borderColor = '#22c55e';
+    
+    // Reset form after delay
+    setTimeout(() => {
+      button.textContent = originalText;
+      button.style.background = '';
+      button.style.borderColor = '';
+      contactInput.value = '';
+      
+      // Reset radio to default (email)
+      const emailRadio = document.getElementById('contact-email');
+      if (emailRadio) {
+        emailRadio.checked = true;
+        emailRadio.dispatchEvent(new Event('change'));
+      }
+    }, 2000);
+    
+    // Log submission (in production, this would send to a server)
+    console.log('Contact form submitted:', { method, contact });
+  });
+})();

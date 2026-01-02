@@ -55,6 +55,103 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* ========================================
+   Navigation Bar
+   ======================================== */
+
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  background: rgba(10, 10, 10, 0.7);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(74, 158, 255, 0.1);
+  transition: transform 0.3s ease;
+  will-change: transform;
+}
+
+.navbar.hidden {
+  transform: translateY(-100%);
+}
+
+.navbar.visible {
+  transform: translateY(0);
+}
+
+.navbar-container {
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: var(--spacing-sm) var(--spacing-md);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.navbar-brand {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  cursor: pointer;
+  transition: var(--transition-fast);
+}
+
+.navbar-brand:hover {
+  opacity: 0.8;
+}
+
+.navbar-logo {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+}
+
+.navbar-title {
+  font-size: 1.2rem;
+  font-weight: 600;
+  background: linear-gradient(135deg, var(--color-white) 0%, var(--color-blue) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  white-space: nowrap;
+}
+
+.navbar-menu {
+  display: flex;
+  list-style: none;
+  gap: var(--spacing-lg);
+}
+
+.navbar-link {
+  color: var(--color-white-soft);
+  text-decoration: none;
+  font-size: 1rem;
+  transition: var(--transition-fast);
+  position: relative;
+  padding: var(--spacing-xs) 0;
+}
+
+.navbar-link::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--color-blue), var(--color-silver));
+  transition: width 0.3s ease;
+}
+
+.navbar-link:hover {
+  color: var(--color-blue);
+}
+
+.navbar-link:hover::after {
+  width: 100%;
+}
+
+/* ========================================
    Hero Section
    ======================================== */
 
@@ -396,6 +493,27 @@ h1, h2, h3, h4, h5, h6 {
   color: var(--color-grey);
 }
 
+.contact-radio-group {
+  display: flex;
+  gap: var(--spacing-md);
+  align-items: center;
+}
+
+.contact-radio-label {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  color: var(--color-white);
+  font-size: 1rem;
+  cursor: pointer;
+  user-select: none;
+}
+
+.contact-radio-label input[type="radio"] {
+  cursor: pointer;
+  accent-color: var(--color-blue);
+}
+
 /* Glassmorphism Button */
 .contact-button {
   padding: var(--spacing-sm) var(--spacing-lg);
@@ -495,6 +613,21 @@ h1, h2, h3, h4, h5, h6 {
   .about-founder {
     padding: var(--spacing-sm);
   }
+
+  .navbar-container {
+    flex-direction: column;
+    gap: var(--spacing-md);
+  }
+
+  .navbar-menu {
+    flex-direction: column;
+    gap: var(--spacing-sm);
+    text-align: center;
+  }
+
+  .navbar-title {
+    font-size: 1rem;
+  }
 }
 
 @media (max-width: 480px) {
@@ -525,4 +658,40 @@ h1, h2, h3, h4, h5, h6 {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
+}
+
+/* Add to existing hero-container styles */
+.hero-container {
+  /* Keep existing styles and add: */
+  overflow: hidden;
+}
+
+.hero-container::before {
+  /* Add z-index to ensure it's above the falling pattern */
+  z-index: 1;
+}
+
+.hero-content {
+  /* Add z-index to ensure content is above the pattern */
+  z-index: 3;
+}
+
+/* Update contact section for radio */
+.contact-radio-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+  align-items: center;
+}
+
+.contact-radio-label {
+  /* Hide the original radio labels */
+  display: none !important;
+}
+
+/* Make sure animated radio takes full width */
+.animated-radio-horizontal {
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
 }
