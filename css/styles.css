@@ -130,6 +130,7 @@ h1, h2, h3, h4, h5, h6 {
   transition: var(--transition-fast);
   position: relative;
   padding: var(--spacing-xs) 0;
+  outline: none;
 }
 
 .navbar-link::after {
@@ -157,6 +158,10 @@ h1, h2, h3, h4, h5, h6 {
 
 .navbar-link.active::after {
   width: 100%;
+}
+
+.navbar-link:focus {
+  outline: none;
 }
 
 /* ========================================
@@ -231,6 +236,105 @@ h1, h2, h3, h4, h5, h6 {
   max-width: 600px;
   margin: 0 auto;
   animation: fadeInUp 1s ease-out 0.2s backwards;
+}
+
+/* ========================================
+   Services Section
+   ======================================== */
+
+.services-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: var(--spacing-xl) var(--spacing-md);
+  background-color: var(--color-black);
+}
+
+.services-heading {
+  font-size: clamp(2rem, 4vw, 3rem);
+  text-align: center;
+  margin-bottom: var(--spacing-lg);
+  position: relative;
+  padding-bottom: var(--spacing-sm);
+}
+
+.services-heading::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 3px;
+  background: linear-gradient(90deg, var(--color-silver), var(--color-blue));
+  border-radius: 2px;
+}
+
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: var(--spacing-md);
+  margin-top: var(--spacing-lg);
+}
+
+.service-card {
+  background-color: var(--color-black-card);
+  border-radius: 16px;
+  padding: var(--spacing-lg);
+  border: 1px solid rgba(184, 189, 199, 0.1);
+  transition: var(--transition-smooth);
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.service-card:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 20px 60px rgba(74, 158, 255, 0.3),
+              0 0 40px rgba(74, 158, 255, 0.2);
+  border-color: var(--color-blue);
+}
+
+.service-icon {
+  font-size: 3rem;
+  margin-bottom: var(--spacing-md);
+  display: inline-block;
+  animation: float 3s ease-in-out infinite;
+}
+
+.service-card:nth-child(1) .service-icon {
+  animation-delay: 0s;
+}
+
+.service-card:nth-child(2) .service-icon {
+  animation-delay: 0.5s;
+}
+
+.service-card:nth-child(3) .service-icon {
+  animation-delay: 1s;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.service-title {
+  font-size: 1.4rem;
+  color: var(--color-white);
+  margin-bottom: var(--spacing-sm);
+}
+
+.service-description {
+  color: var(--color-white-soft);
+  font-size: 0.95rem;
+  line-height: 1.6;
+  flex-grow: 1;
 }
 
 /* ========================================
@@ -471,6 +575,95 @@ h1, h2, h3, h4, h5, h6 {
 .contact-label {
   font-size: 1rem;
   color: var(--color-white);
+  font-weight: 500;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.form-label {
+  font-size: 1rem;
+  color: var(--color-white);
+  font-weight: 500;
+}
+
+.form-group input[type="text"],
+.form-group input[type="email"] {
+  padding: var(--spacing-sm);
+  background-color: var(--color-black-card);
+  border: 1px solid rgba(184, 189, 199, 0.2);
+  border-radius: 8px;
+  color: var(--color-white);
+  font-size: 1rem;
+  transition: var(--transition-fast);
+}
+
+.form-group input[type="text"]:focus,
+.form-group input[type="email"]:focus {
+  outline: none;
+  border-color: var(--color-blue);
+  box-shadow: 0 0 0 3px rgba(74, 158, 255, 0.1);
+}
+
+.form-group input::placeholder {
+  color: var(--color-grey);
+}
+
+.radio-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.radio-container {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  cursor: pointer;
+  position: relative;
+  padding: var(--spacing-sm);
+  border-radius: 8px;
+  border: 1px solid rgba(184, 189, 199, 0.1);
+  transition: var(--transition-fast);
+}
+
+.radio-container:hover {
+  border-color: rgba(74, 158, 255, 0.3);
+  background-color: rgba(74, 158, 255, 0.05);
+}
+
+.radio-container input[type="radio"] {
+  cursor: pointer;
+  accent-color: var(--color-blue);
+  width: 18px;
+  height: 18px;
+  outline: none;
+}
+
+.radio-container input[type="radio"]:focus {
+  outline: none;
+}
+
+.radio-container input[type="radio"]:checked {
+  outline: none;
+}
+
+.radio-container:has(input[type="radio"]:checked) {
+  border-color: var(--color-blue);
+  background-color: rgba(74, 158, 255, 0.1);
+}
+
+.radio-label {
+  color: var(--color-white-soft);
+  font-size: 0.95rem;
+  user-select: none;
+}
+
+.radio-container input[type="radio"]:checked + .radio-label {
+  color: var(--color-blue);
   font-weight: 500;
 }
 

@@ -20,8 +20,9 @@
       </div>
       <ul class="navbar-menu">
         <li><a href="#hero-section" class="navbar-link">Home</a></li>
+        <li><a href="#services-section" class="navbar-link">Services</a></li>
+        <li><a href="#portfolio-section" class="navbar-link">Case Studies</a></li>
         <li><a href="#about-section" class="navbar-link">About</a></li>
-        <li><a href="#portfolio-section" class="navbar-link">Projects</a></li>
         <li><a href="#contact-section" class="navbar-link">Contact Us</a></li>
       </ul>
     </div>
@@ -34,48 +35,47 @@
   <div class="hero-content">
     <img src="images/AnacondaConslting_Logo7.png" alt="Anaconda Consulting Logo" class="hero-logo">
     <h1 class="hero-title">Anaconda Consulting</h1>
-    <p class="hero-tagline">Expert IT Consulting, Secure Solutions, and Technical Excellence</p>
+    <p class="hero-tagline">
+      We build scalable websites, AI-powered workflows, and intelligent voice assistants that help businesses work smarter.
+    </p>
   </div>
 </header>
 
-  <!-- About Section -->
-  <section id="about-section" class="about-container">
-    <h2 class="about-heading">About Us</h2>
-    <p class="about-overview">
-      At Anaconda Consulting, we specialize in delivering scalable, secure, and user-centric IT solutions. 
-      Our mission is to empower businesses with modern technology, ensuring reliability, efficiency, and innovation.
-    </p>
+  <!-- Services Section -->
+  <section id="services-section" class="services-container">
+    <h2 class="services-heading">Our Services</h2>
+    <div class="services-grid">
+      
+      <article class="service-card">
+        <div class="service-icon">🌐</div>
+        <h3 class="service-title">Custom Website Development</h3>
+        <p class="service-description">
+          We build high-performance, responsive websites tailored to your brand. Setting up company email
+        </p>
+      </article>
 
-    <article class="about-values">
-      <h3 class="values-heading">Our Values & Goals</h3>
-      <ul class="values-list">
-        <li>Commitment to security and data integrity</li>
-        <li>Building scalable, maintainable systems</li>
-        <li>Continuous improvement and innovation</li>
-        <li>Client-focused collaboration and transparency</li>
-      </ul>
-    </article>
+      <article class="service-card">
+        <div class="service-icon">⚙️</div>
+        <h3 class="service-title">AI Workflow Automation</h3>
+        <p class="service-description">
+          Streamline your business operations with custom AI pipelines. We integrate LLMs and automation tools to reduce manual tasks and boost team productivity.
+        </p>
+      </article>
 
-    <article class="about-founder">
-      <h3 class="founder-heading">Meet the Founder</h3>
-      <figure class="founder-profile">
-        <img src="images/Ankunda4.png" alt="Founder Picture" class="founder-photo">
-        <figcaption class="founder-caption">Ankunda Bakainaga</figcaption>
-      </figure>
-      <p class="founder-bio">
-        Ankunda Bakainaga is a results-oriented IT consultant and Android developer with expertise in 
-        full-stack development, cloud integration, and secure system architecture. With professional 
-        experience at AngloAmerican and Afrolynx IT Solutions, Ankunda has led digitization initiatives, 
-        architected RESTful APIs, and delivered impactful mobile and web applications. 
-        Combining a background in Computer Science and Bioinformatics, Ankunda brings a unique blend of 
-        technical depth and problem-solving skills to every project.
-      </p>
-    </article>
+      <article class="service-card">
+        <div class="service-icon">🎙️</div>
+        <h3 class="service-title">AI Voice Solutions</h3>
+        <p class="service-description">
+          Deploy intelligent voice assistants for customer support or internal operations. Our solutions feature natural language processing for seamless human-like interactions.
+        </p>
+      </article>
+
+    </div>
   </section>
 
-  <!-- Portfolio Section -->
+  <!-- Case Studies Section -->
   <section id="portfolio-section" class="portfolio-container">
-    <h2 class="portfolio-heading">Our Projects</h2>
+    <h2 class="portfolio-heading">Case Studies</h2>
     <div class="portfolio-grid">
       
       <article class="project-card">
@@ -122,26 +122,77 @@
       <article >
       </article>
 
-      
-
     </div>
+  </section>
+
+  <!-- About Section -->
+  <section id="about-section" class="about-container">
+    <h2 class="about-heading">Corporate Overview</h2>
+    <p class="about-overview">
+      At Anaconda Consulting, we specialize in delivering scalable, secure, and user-centric IT solutions. 
+      Our mission is to empower businesses with modern technology, ensuring reliability, efficiency, and innovation.
+    </p>
+
+    <article class="about-values">
+      <h3 class="values-heading">Our Values & Goals</h3>
+      <ul class="values-list">
+        <li>Commitment to security and data integrity</li>
+        <li>Building scalable, maintainable systems</li>
+        <li>Continuous improvement and innovation</li>
+        <li>Client-focused collaboration and transparency</li>
+      </ul>
+    </article>
+
+    <article class="about-founder">
+      <h3 class="founder-heading">Meet the Founder</h3>
+      <figure class="founder-profile">
+        <img src="images/Ankunda4.png" alt="Founder Picture" class="founder-photo">
+        <figcaption class="founder-caption">Ankunda Bakainaga</figcaption>
+      </figure>
+      <p class="founder-bio">
+        Anaconda Consulting is led by Ankunda Bakainaga, a software engineer with enterprise experience delivering
+        secure, scalable systems across web, mobile, and cloud platforms
+      </p>
+    </article>
   </section>
 
   <!-- Contact Section -->
   <section id="contact-section" class="contact-container">
     <h2 class="contact-heading">Get in Touch</h2>
     <form class="contact-form">
-      <label for="contact-input" class="contact-label">Your Contact:</label>
-      <input type="text" id="contact-input" name="contact-input" class="contact-input" placeholder="Enter email or phone number">
+      <div class="form-group">
+        <label for="name">Full Name</label>
+        <input type="text" id="name" name="name" placeholder="John Doe" required>
+      </div>
+      
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" placeholder="name@company.com" required>
+      </div>
 
-      <label class="contact-label">Preferred Contact Method:</label>
-      <div class="contact-radio-group">
-  <div class="animated-radio-horizontal">
-    <!-- Radio buttons will be injected here by JavaScript -->
-  </div>
-</div>
+      <div class="form-group">
+        <label class="form-label">Service Interested In</label>
+        <div class="radio-group">
+          <label class="radio-container">
+            <input type="radio" name="service-interest" value="web-build" required>
+            <span class="radio-label">Website Build</span>
+          </label>
+          <label class="radio-container">
+            <input type="radio" name="service-interest" value="ai-workflow" required>
+            <span class="radio-label">AI Workflow Creation</span>
+          </label>
+          <label class="radio-container">
+            <input type="radio" name="service-interest" value="ai-voice" required>
+            <span class="radio-label">AI Voice Assistance</span>
+          </label>
+          <label class="radio-container">
+            <input type="radio" name="service-interest" value="other" required>
+            <span class="radio-label">Other Consulting</span>
+          </label>
+        </div>
+      </div>
 
-      <button type="submit" class="contact-button">Submit</button>
+      <button type="submit" class="contact-button">Request a Consultation</button>
     </form>
   </section>
 
