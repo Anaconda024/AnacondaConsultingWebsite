@@ -9,12 +9,12 @@
 
 (function initNavbar() {
   const navbar = document.getElementById('navbar');
-  
+
   if (!navbar) return;
-  
+
   let lastScrollY = 0;
   let hideTimeout;
-  
+
   const HIDE_DELAY = 3000; // Hide navbar after 3 seconds of inactivity
   const SECTIONS = [
     { id: 'hero-section', link: 'a[href="#hero-section"]' },
@@ -22,26 +22,26 @@
     { id: 'portfolio-section', link: 'a[href="#portfolio-section"]' },
     { id: 'contact-section', link: 'a[href="#contact-section"]' }
   ];
-  
+
   function hideNavbar() {
     navbar.classList.add('hidden');
     navbar.classList.remove('visible');
   }
-  
+
   function showNavbar() {
     navbar.classList.remove('hidden');
     navbar.classList.add('visible');
   }
-  
+
   function resetHideTimer() {
     clearTimeout(hideTimeout);
     showNavbar();
     hideTimeout = setTimeout(hideNavbar, HIDE_DELAY);
   }
-  
+
   function updateActiveLink() {
     let currentSection = null;
-    
+
     // Find which section is currently in view
     for (const section of SECTIONS) {
       const element = document.getElementById(section.id);
@@ -54,7 +54,7 @@
         }
       }
     }
-    
+
     // Update active state for all links
     document.querySelectorAll('.navbar-link').forEach(link => {
       link.classList.remove('active');
@@ -63,7 +63,7 @@
       }
     });
   }
-  
+
   // Detect scroll direction
   document.addEventListener('scroll', () => {
     if (lastScrollY < window.scrollY) {
@@ -75,14 +75,14 @@
       hideNavbar();
       clearTimeout(hideTimeout);
     }
-    
+
     lastScrollY = window.scrollY;
     updateActiveLink();
   }, { passive: true });
-  
+
   // Hide navbar initially
   hideNavbar();
-  
+
   // Add smooth scrolling for navbar links
   document.querySelectorAll('.navbar-link').forEach(link => {
     link.addEventListener('click', (e) => {
@@ -98,7 +98,7 @@
       }
     });
   });
-  
+
   // Click on logo to scroll to home
   document.querySelector('.navbar-brand').addEventListener('click', () => {
     const heroSection = document.getElementById('hero-section');
@@ -116,49 +116,49 @@
 
 (function initHeroInteraction() {
   const heroSection = document.getElementById('hero-section');
-  
+
   if (!heroSection) return;
-  
+
   let mouseX = 0;
   let mouseY = 0;
   let currentX = 0;
   let currentY = 0;
   let isHovering = false;
-  
+
   // Smooth animation using requestAnimationFrame
   function animateGradient() {
     if (!isHovering) return;
-    
+
     // Smooth lerp (linear interpolation) for natural movement
     currentX += (mouseX - currentX) * 0.1;
     currentY += (mouseY - currentY) * 0.1;
-    
+
     // Update CSS custom properties for gradient position
     heroSection.style.setProperty('--mouse-x', `${currentX}%`);
     heroSection.style.setProperty('--mouse-y', `${currentY}%`);
-    
+
     requestAnimationFrame(animateGradient);
   }
-  
+
   // Track mouse movement within hero section
   heroSection.addEventListener('mousemove', (e) => {
     const rect = heroSection.getBoundingClientRect();
     mouseX = ((e.clientX - rect.left) / rect.width) * 100;
     mouseY = ((e.clientY - rect.top) / rect.height) * 100;
-    
+
     if (!isHovering) {
       isHovering = true;
       heroSection.classList.add('active');
       animateGradient();
     }
   });
-  
+
   // Fade out effect when mouse leaves
   heroSection.addEventListener('mouseleave', () => {
     isHovering = false;
     heroSection.classList.remove('active');
   });
-  
+
   // Initialize on mouse enter
   heroSection.addEventListener('mouseenter', () => {
     heroSection.classList.add('active');
@@ -175,7 +175,7 @@
     anchor.addEventListener('click', function (e) {
       e.preventDefault();
       const target = document.querySelector(this.getAttribute('href'));
-      
+
       if (target) {
         target.scrollIntoView({
           behavior: 'smooth',
@@ -192,20 +192,20 @@
 
 (function initProjectCards() {
   const projectCards = document.querySelectorAll('.project-card');
-  
+
   projectCards.forEach(card => {
     // Add subtle 3D tilt effect on mouse move
     card.addEventListener('mousemove', (e) => {
       const rect = card.getBoundingClientRect();
       const x = e.clientX - rect.left;
       const y = e.clientY - rect.top;
-      
+
       const centerX = rect.width / 2;
       const centerY = rect.height / 2;
-      
+
       const rotateX = ((y - centerY) / centerY) * 3; // Max 3 degrees
       const rotateY = ((x - centerX) / centerX) * -3;
-      
+
       card.style.transform = `
         translateY(-8px) 
         scale(1.02) 
@@ -213,7 +213,7 @@
         rotateY(${rotateY}deg)
       `;
     });
-    
+
     // Reset transform on mouse leave
     card.addEventListener('mouseleave', () => {
       card.style.transform = '';
@@ -229,13 +229,13 @@
   const contactMethod = document.getElementById('contact-method');
   const contactInput = document.getElementById('contact-input');
   const contactForm = document.querySelector('.contact-form');
-  
+
   if (!contactMethod || !contactInput || !contactForm) return;
-  
+
   // Update placeholder based on selected contact method
   function updatePlaceholder() {
     const method = contactMethod.value;
-    
+
     if (method === 'email') {
       contactInput.type = 'email';
       contactInput.placeholder = 'Enter your email address';
@@ -246,39 +246,39 @@
       contactInput.setAttribute('pattern', '[0-9+\\-\\s()]*');
     }
   }
-  
+
   // Initialize placeholder
   updatePlaceholder();
-  
+
   // Update on change
   contactMethod.addEventListener('change', updatePlaceholder);
-  
+
   // Form submission handler (prevents default, can be customized)
   contactForm.addEventListener('submit', (e) => {
     e.preventDefault();
-    
+
     const method = contactMethod.value;
     const contact = contactInput.value.trim();
-    
+
     if (!contact) {
       alert('Please enter your contact information.');
       return;
     }
-    
+
     // Basic validation
     if (method === 'email' && !contact.includes('@')) {
       alert('Please enter a valid email address.');
       return;
     }
-    
+
     // Success feedback (customize as needed)
     const button = contactForm.querySelector('.contact-button');
     const originalText = button.textContent;
-    
+
     button.textContent = 'Submitted!';
     button.style.background = 'rgba(34, 197, 94, 0.25)';
     button.style.borderColor = '#22c55e';
-    
+
     // Reset form after delay
     setTimeout(() => {
       button.textContent = originalText;
@@ -300,7 +300,7 @@
     threshold: 0.1,
     rootMargin: '0px 0px -50px 0px'
   };
-  
+
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
@@ -309,19 +309,19 @@
       }
     });
   }, observerOptions);
-  
+
   // Observe sections for entrance animations
   const sections = document.querySelectorAll(
     '.about-container, .portfolio-container, .contact-container'
   );
-  
+
   sections.forEach(section => {
     section.style.opacity = '0';
     section.style.transform = 'translateY(20px)';
     section.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
     observer.observe(section);
   });
-  
+
   // Observe project cards individually
   const cards = document.querySelectorAll('.project-card');
   cards.forEach((card, index) => {
@@ -349,15 +349,15 @@
       timeout = setTimeout(later, wait);
     };
   }
-  
+
   // Handle window resize efficiently
   const handleResize = debounce(() => {
     // Recalculate any position-dependent elements if needed
     console.log('Window resized - recalculating layouts');
   }, 250);
-  
+
   window.addEventListener('resize', handleResize);
-  
+
   // Preload images for better performance
   const images = document.querySelectorAll('img[src]');
   images.forEach(img => {
@@ -378,12 +378,12 @@
 (function initAccessibility() {
   // Add keyboard navigation support for project cards
   const projectCards = document.querySelectorAll('.project-card');
-  
+
   projectCards.forEach(card => {
     // Make cards keyboard accessible
     card.setAttribute('tabindex', '0');
     card.setAttribute('role', 'article');
-    
+
     // Handle keyboard events
     card.addEventListener('keypress', (e) => {
       if (e.key === 'Enter' || e.key === ' ') {
@@ -393,18 +393,18 @@
       }
     });
   });
-  
+
   // Add focus visible styles
   const focusableElements = document.querySelectorAll(
     'a, button, input, select, textarea, [tabindex]:not([tabindex="-1"])'
   );
-  
+
   focusableElements.forEach(element => {
     element.addEventListener('focus', () => {
       element.style.outline = '2px solid #4a9eff';
       element.style.outlineOffset = '2px';
     });
-    
+
     element.addEventListener('blur', () => {
       element.style.outline = '';
       element.style.outlineOffset = '';
@@ -419,7 +419,7 @@
 // Additional initialization if needed
 document.addEventListener('DOMContentLoaded', () => {
   console.log('Anaconda Consulting - Website Initialized');
-  
+
   // Add loading animation complete class
   document.body.classList.add('loaded');
 });
@@ -455,7 +455,7 @@ window.addEventListener('error', (e) => {
     options.forEach((option, index) => {
       const optionDiv = document.createElement('div');
       optionDiv.className = 'radio-option-horizontal';
-      
+
       const input = document.createElement('input');
       input.type = 'radio';
       input.id = option.id;
@@ -463,19 +463,19 @@ window.addEventListener('error', (e) => {
       input.value = option.value;
       input.checked = selectedValue === option.value;
       input.className = 'radio-input-horizontal';
-      
+
       const label = document.createElement('label');
       label.htmlFor = option.id;
       label.className = `radio-label-horizontal ${selectedValue === option.value ? 'selected' : 'unselected'}`;
       label.textContent = option.label;
-      
+
       // Add event listener
       input.addEventListener('change', (e) => {
         selectedValue = e.target.value;
         updateRadioSelection();
         updateContactPlaceholder();
       });
-      
+
       optionDiv.appendChild(input);
       optionDiv.appendChild(label);
       radioContainer.appendChild(optionDiv);
@@ -484,18 +484,18 @@ window.addEventListener('error', (e) => {
     // Create the track and glider
     const track = document.createElement('div');
     track.className = 'radio-track-horizontal';
-    
+
     const glider = document.createElement('div');
     glider.className = 'glider-horizontal';
     glider.id = 'radio-glider';
     glider.style.transform = getGliderTransform();
-    
+
     const gliderBlur = document.createElement('div');
     gliderBlur.className = 'glider-blur-horizontal';
-    
+
     const gliderGradient = document.createElement('div');
     gliderGradient.className = 'glider-gradient-horizontal';
-    
+
     glider.appendChild(gliderBlur);
     glider.appendChild(gliderGradient);
     track.appendChild(glider);
@@ -507,7 +507,7 @@ window.addEventListener('error', (e) => {
     document.querySelectorAll('.radio-label-horizontal').forEach((label, index) => {
       label.className = `radio-label-horizontal ${options[index].value === selectedValue ? 'selected' : 'unselected'}`;
     });
-    
+
     // Update glider position
     const glider = document.getElementById('radio-glider');
     if (glider) {
@@ -631,102 +631,153 @@ window.addEventListener('error', (e) => {
   // Initialize falling pattern
   function initPattern() {
     fallingPattern.innerHTML = '';
-    
+
     // Create pattern layer
     const patternLayer = document.createElement('div');
     patternLayer.className = 'pattern-layer';
-    
+
     // Set CSS custom properties
     patternLayer.style.setProperty('--pattern-image', generateBackgroundImage(config.color));
     patternLayer.style.setProperty('--pattern-size', backgroundSizes);
     patternLayer.style.setProperty('--start-positions', startPositions);
     patternLayer.style.setProperty('--end-positions', endPositions);
     patternLayer.style.setProperty('--duration', `${config.duration}s`);
-    
+
     // Create overlay
     const overlay = document.createElement('div');
     overlay.className = 'falling-overlay';
     overlay.style.setProperty('--blur-intensity', config.blurIntensity);
     overlay.style.setProperty('--density', config.density);
-    
+
     // Add to container
     fallingPattern.appendChild(patternLayer);
     fallingPattern.appendChild(overlay);
-    
+
     // Set background color
     fallingPattern.style.backgroundColor = config.backgroundColor;
   }
 
   // Initialize on page load
   document.addEventListener('DOMContentLoaded', initPattern);
-  
+
   // Handle window resize
   window.addEventListener('resize', initPattern);
 })();
 
 // ========================================
-// Contact Form - Updated for animated radio
+// Contact Form - Submission with API Call
 // ========================================
 
-(function initContactForm() {
-  const contactInput = document.getElementById('contact-input');
+(function initContactFormSubmission() {
   const contactForm = document.querySelector('.contact-form');
-  
-  if (!contactInput || !contactForm) return;
-  
-  // Get selected contact method
-  function getSelectedMethod() {
-    const selectedRadio = document.querySelector('input[name="contact-method"]:checked');
-    return selectedRadio ? selectedRadio.value : 'email';
-  }
-  
-  // Form submission handler
-  contactForm.addEventListener('submit', (e) => {
+  const submitButton = contactForm.querySelector('.contact-button');
+
+  if (!contactForm) return;
+
+
+  // Create error message element
+  const errorMessage = document.createElement('div');
+  errorMessage.className = 'contact-error-message';
+  errorMessage.style.cssText = `
+    color: #ef4444;
+    font-size: 0.85rem;
+    margin-top: 0.5rem;
+    display: none;
+    text-align: center;
+  `;
+
+  // Insert error message after form
+  contactForm.appendChild(errorMessage);
+
+  // Handle form submission
+  contactForm.addEventListener('submit', async (e) => {
     e.preventDefault();
-    
-    const method = getSelectedMethod();
-    const contact = contactInput.value.trim();
-    
-    if (!contact) {
-      alert('Please enter your contact information.');
+
+    // Get form values
+    const name = document.getElementById('name').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const phone = document.getElementById('phone').value.trim();
+    const serviceInterestElement = document.querySelector('input[name="service-interest"]:checked');
+    const serviceInterest = serviceInterestElement ? serviceInterestElement.parentElement.querySelector('.radio-label').textContent.trim() : '';
+
+    // Validate that either email or phone is filled
+    if (!email && !phone) {
+      errorMessage.textContent = 'Please provide either an email address or phone number.';
+      errorMessage.style.display = 'block';
+      return;
+    } else {
+      errorMessage.style.display = 'none';
+    }
+
+    // Validate name
+    if (!name) {
+      errorMessage.textContent = 'Please enter your full name.';
+      errorMessage.style.display = 'block';
       return;
     }
-    
-    // Basic validation
-    if (method === 'email' && !contact.includes('@')) {
-      alert('Please enter a valid email address.');
+
+    // Validate service interest
+    if (!serviceInterest) {
+      errorMessage.textContent = 'Please select a service.';
+      errorMessage.style.display = 'block';
       return;
     }
-    
-    if (method === 'phone' && !/^[\d\s\-\+\(\)]{10,}$/.test(contact.replace(/\D/g, ''))) {
-      alert('Please enter a valid phone number (at least 10 digits).');
+
+    // Validate email format if provided
+    if (email && !email.includes('@')) {
+      errorMessage.textContent = 'Please enter a valid email address.';
+      errorMessage.style.display = 'block';
       return;
     }
-    
-    // Success feedback
-    const button = contactForm.querySelector('.contact-button');
-    const originalText = button.textContent;
-    
-    button.textContent = 'Submitted!';
-    button.style.background = 'rgba(34, 197, 94, 0.25)';
-    button.style.borderColor = '#22c55e';
-    
-    // Reset form after delay
-    setTimeout(() => {
-      button.textContent = originalText;
-      button.style.background = '';
-      button.style.borderColor = '';
-      contactInput.value = '';
-      
-      // Reset radio to default (email)
-      const emailRadio = document.getElementById('contact-email');
-      if (emailRadio) {
-        emailRadio.checked = true;
-        emailRadio.dispatchEvent(new Event('change'));
-      }
-    }, 2000);
-    
-    // Log submission (in production, this would send to a server)
-    console.log('Contact form submitted:', { method, contact });
+
+    // Show loading state
+    submitButton.disabled = true;
+    submitButton.textContent = 'Sending...';
+
+    try {
+      // Prepare data for API
+      const leadData = {
+        name: name,
+        phone: phone || '',
+        email: email || '',
+        service: serviceInterest
+      };
+
+      // Make API call
+      const API_URL = 'https://sheetkeyapi2.vercel.app/api/proxy';
+
+      const response = await fetch(API_URL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(leadData)
+      });
+
+      // Show success message
+      submitButton.textContent = 'Submitted Successfully!';
+      submitButton.style.background = 'rgba(34, 197, 94, 0.25)';
+      submitButton.style.borderColor = '#22c55e';
+      errorMessage.style.display = 'none';
+
+      // Reset form after delay
+      setTimeout(() => {
+        contactForm.reset();
+        submitButton.disabled = false;
+        submitButton.textContent = 'Request a Consultation';
+        submitButton.style.background = '';
+        submitButton.style.borderColor = '';
+      }, 2000);
+
+      console.log('Lead submitted successfully:', leadData);
+    } catch (error) {
+      console.error('Error submitting form:', error);
+      errorMessage.textContent = 'Error submitting form. Please try again.';
+      errorMessage.style.display = 'block';
+
+      // Reset button state
+      submitButton.disabled = false;
+      submitButton.textContent = 'Request a Consultation';
+    }
   });
 })();

@@ -590,8 +590,7 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: 500;
 }
 
-.form-group input[type="text"],
-.form-group input[type="email"] {
+.form-input {
   padding: var(--spacing-sm);
   background-color: var(--color-black-card);
   border: 1px solid rgba(184, 189, 199, 0.2);
@@ -601,14 +600,13 @@ h1, h2, h3, h4, h5, h6 {
   transition: var(--transition-fast);
 }
 
-.form-group input[type="text"]:focus,
-.form-group input[type="email"]:focus {
+.form-input:focus {
   outline: none;
   border-color: var(--color-blue);
   box-shadow: 0 0 0 3px rgba(74, 158, 255, 0.1);
 }
 
-.form-group input::placeholder {
+.form-input::placeholder {
   color: var(--color-grey);
 }
 
@@ -758,6 +756,26 @@ h1, h2, h3, h4, h5, h6 {
 
 .contact-button:active {
   transform: translateY(0);
+}
+
+.contact-error-message {
+  color: #ef4444;
+  font-size: 0.85rem;
+  margin-top: 0.5rem;
+  text-align: center;
+  display: none;
+  animation: fadeInDown 0.3s ease;
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* ========================================
